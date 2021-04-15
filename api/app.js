@@ -4,6 +4,8 @@
 const express = require('express');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
+const cors = require('cors');
+
 // const Sequelize = require('sequelize');
 const sequelize = require('./db');
 const User = require('./models/user');
@@ -23,6 +25,9 @@ const app = express();
 
 // set our port
 app.set('port', process.env.PORT || 5000);
+
+// Enable CORS
+app.use(cors());
 
 // setup morgan which gives us http request logging
 app.use(morgan('dev'));
