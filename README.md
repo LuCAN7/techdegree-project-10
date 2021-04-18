@@ -1,35 +1,15 @@
-[33mcommit 9a26b7c58182551354a03a9f49082d3789ed6cb1[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m
-Author: Lucan F <dapps911@hotmail.com>
-Date:   Thu Apr 15 18:02:19 2021 -0400
+#treehouse-techdegree-project-10
 
-    refactor using React context and functional components
+This full stack application will provide a way for users to administer a school database containing information about courses: users can interact with the database by retrieving a list of courses, viewing detail for a specific course, as well as creating, updating and deleting courses in the database.
 
-[33mcommit 4728dd8504831b6fabfb10827b7507f6af678c62[m
-Author: Lucan F <dapps911@hotmail.com>
-Date:   Fri Mar 5 18:03:51 2021 -0500
+In addition, the project will require users to create an account and sign in to make changes to the database. Implementing these features will push your React skills to new heights.
 
-    install cors package
+To complete this project, you’ll use your knowledge of React, JSX, React Router, React Context API, and Create React App.
 
-[33mcommit 3edca0cd683b6694e6a064a56c739fe1aa3d063e[m
-Author: Lucan F <dapps911@hotmail.com>
-Date:   Fri Mar 5 17:40:59 2021 -0500
+After using the Create React App tool to set up your initial project, you'll:
 
-    add test.txt
-
-[33mcommit 76c5752bf76fae9714abaab863d31279259baff8[m
-Author: Lucan F <dapps911@hotmail.com>
-Date:   Fri Mar 5 17:39:41 2021 -0500
-
-    test
-
-[33mcommit 36fa026252bdf1306035e8e2c8ee89eaf184c569[m
-Author: Lucan F <dapps911@hotmail.com>
-Date:   Thu Mar 4 23:51:34 2021 -0500
-
-    upgrade to sqlite3 v5
-
-[33mcommit 9bdbe60afc5365757899824436bb35816097d296[m
-Author: Lucan F <dapps911@hotmail.com>
-Date:   Thu Mar 4 19:14:07 2021 -0500
-
-    update project folder structure
+We use JavaScript and JSX to build out the components for your application in a modular fashion.
+We use React Router to set up your routes.
+We use the Fetch API to fetch data from your REST API.
+We allow users to sign up and use basic authentication to support users signing in.
+We add to the supplied CSS to personalize the project.
