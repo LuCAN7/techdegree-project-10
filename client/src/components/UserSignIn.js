@@ -13,7 +13,7 @@ const UserSignIn = (props) => {
     props.history.push('/');
   };
 
-  const handleSubmit = () => {
+  const handleSignin = (e) => {
     e.preventDefault();
     console.log(e.currentTarget.name);
     // let username = 'joe@smith.com';
