@@ -1,20 +1,25 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { AuthContext } from './context/AuthContext';
 
 const UserSignIn = (props) => {
   const { user, signIn } = useContext(AuthContext);
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
   const cancelUserSignin = (e) => {
     // console.log(props);
     e.preventDefault();
-    // console.log(e.target);
     props.history.push('/');
-    // <Redirect to='/' />;
   };
-  // let username = 'joe@smith.com';
-  // let password = 'joepassword';
-  // signIn(username, password);
+
+  const handleSubmit = () => {
+    e.preventDefault();
+    console.log(e.currentTarget.name);
+    // let username = 'joe@smith.com';
+    // let password = 'joepassword';
+    // signIn(username, password);
+  };
 
   return (
     <main>
@@ -22,11 +27,23 @@ const UserSignIn = (props) => {
         <h2>Sign In</h2>
 
         <form className='form'>
-          <label for='emailAddress'>Email Address</label>
-          <input id='emailAddress' name='emailAddress' type='email' value='' />
-          <label for='password'>Password</label>
-          <input id='password' name='password' type='password' value='' />
-          <button className='button' type='submit'>
+          <label htmlFor='emailAddress'>Email Address</label>
+          <input
+            id='emailAddress'
+            name='emailAddress'
+            type='email'
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+          <label htlmFor='password'>Password</label>
+          <input
+            id='password'
+            name='password'
+            type='password'
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <button className='button' type='submit' onClick={handleSignin}>
             Sign In
           </button>
           <button
