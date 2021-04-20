@@ -3,7 +3,7 @@ import { Link, Redirect } from 'react-router-dom';
 import { AuthContext } from './context/AuthContext';
 
 const UserSignIn = (props) => {
-  const { user, signIn } = useContext(AuthContext);
+  const { user, signIn, isLoggedIn } = useContext(AuthContext);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
@@ -13,12 +13,20 @@ const UserSignIn = (props) => {
     props.history.push('/');
   };
 
-  const handleSignin = (e) => {
+  const handleSignin = async (e) => {
     e.preventDefault();
-    console.log(e.currentTarget.name);
     // let username = 'joe@smith.com';
     // let password = 'joepassword';
-    // signIn(username, password);
+    const auser = await signIn(username, password);
+    console.log(isLoggedIn);
+    console.log('USER IS--->', auser);
+    if (auser && isLoggedIn) {
+      console.log('ACCESS');
+      return props.history.push('/signup'); // testing auth routing with /create route
+    } else {
+      console.log('NO ACCESS');
+      props.history.push('/signin'); // testing auth routing with /create route
+    }
   };
 
   return (
