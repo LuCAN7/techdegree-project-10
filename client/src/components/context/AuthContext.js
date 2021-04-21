@@ -9,8 +9,24 @@ const AuthContextProvider = (props) => {
   const [isError, setIsError] = useState(null);
 
   // const authenticatedUser = isAuth;
+  async function fetchHandler() {
+    try {
+      let response = await fetch('https://json');
+      let data = await response.json();
+      if (!response.ok) {
+        const error = new Error('An Error Occured');
+        error.details = data;
+        throw error;
+      }
+      console.log(posts);
+    } catch (error) {
+      console.log(error.message); // An Error Occurred
+      console.log(error.details); // prints response got from server
+    }
+  }
 
   useEffect(() => {
+    // fetchHandler();
     // getUser();
     setIsLoading(true);
     //  return () => {
