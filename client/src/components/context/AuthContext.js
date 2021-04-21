@@ -1,6 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
 // import Cookies from 'js-cookie';
-// import { CourseContext } from './CourseContext';
 
 export const AuthContext = React.createContext();
 
@@ -9,41 +8,17 @@ const AuthContextProvider = (props) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isError, setIsError] = useState(null);
 
-  // const { courses, actions } = useContext(CourseContext);
-
   // const authenticatedUser = isAuth;
-
-  // function getUser(username, password) {
-  //   const apiBaseUrl = `http://localhost:5000/api/users`;
-  //   let encodedCredentials = btoa(`${username}:${password}`);
-  //   fetch(apiBaseUrl, {
-  //     method: 'GET',
-  //     mode: 'cors',
-  //     credentials: 'same-origin', // include, *same-origin, omit
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //       Authorization: `Basic ${encodedCredentials}`,
-  //     },
-  //   })
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       console.log('auth-data-', data);
-  //       setUser(data);
-  //     })
-  //     .catch((err) => console.log(err));
-  // }
 
   useEffect(() => {
     // getUser();
-    // setIsLoading(true);
+    setIsLoading(true);
     //  return () => {
     //    cleanup
     //  }
   }, []);
 
   const signIn = (username, password) => {
-    // getUser(username, password);
-
     // let user = await data.getUser(username, password);
     // if (user !== null) {
     //   setState(() => {
@@ -58,7 +33,6 @@ const AuthContextProvider = (props) => {
     // Cookies.set('authenticatedUser', JSON.stringify(user), {
     //   cookieOptions,
     // });
-    // console.log('USER', user);
 
     const apiBaseUrl = `http://localhost:5000/api/users`;
 
@@ -73,21 +47,23 @@ const AuthContextProvider = (props) => {
         Authorization: `Basic ${encodedCredentials}`,
       },
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) {
+          // throw Error('Could not fecth data from resource');
+          return Promise.reject(res);
+        }
+        res.json();
+      })
       .then((data) => {
         console.log('auth-data-', data);
-        if (!data) {
-          props.history.push('/signin');
-          setIsLoggedIn(false);
-          setUser(null);
-        } else {
-          setIsLoggedIn(true);
-          setUser(data);
-        }
+        setIsLoggedIn(true);
+        setUser(data);
+        setIsError(null);
       })
       .catch((err) => {
         setIsLoggedIn(false);
-        console.log(err);
+        setIsError(err.message);
+        // console.log(err);
       });
 
     // return;
@@ -105,11 +81,6 @@ const AuthContextProvider = (props) => {
         isLoggedIn,
         signIn,
         // signout,
-        // isAuth,
-        // credentials: null,
-        // token: null,
-        // login: () => {},
-        // logout: () => {}
       }}
     >
       {props.children}
