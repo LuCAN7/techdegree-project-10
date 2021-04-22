@@ -3,14 +3,15 @@ import { Link, Redirect } from 'react-router-dom';
 import { AuthContext } from './context/AuthContext';
 
 const UserSignIn = (props) => {
-  const { user, signIn, isLoggedIn } = useContext(AuthContext);
+  const { isLoggedIn, signIn, signOut } = useContext(AuthContext);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const cancelUserSignin = (e) => {
-    // console.log(props);
+  const handleSignout = (e) => {
     e.preventDefault();
+    signOut();
     props.history.push('/');
+    // console.log(props);
   };
 
   const handleSignin = async (e) => {
@@ -46,10 +47,7 @@ const UserSignIn = (props) => {
           <button className='button' type='submit' onClick={handleSignin}>
             Sign In
           </button>
-          <button
-            className='button button-secondary'
-            onClick={cancelUserSignin}
-          >
+          <button className='button button-secondary' onClick={handleSignout}>
             Cancel
           </button>
         </form>
