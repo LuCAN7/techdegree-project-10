@@ -1,102 +1,71 @@
 import React, { useContext, useState, useEffect } from 'react';
-// import Cookies from 'js-cookie';
 
 export const AuthContext = React.createContext();
 
 const AuthContextProvider = (props) => {
   const [user, setUser] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isError, setIsError] = useState(null);
-
-  // const authenticatedUser = isAuth;
-  async function fetchHandler() {
-    try {
-      let response = await fetch('https://json');
-      let data = await response.json();
-      if (!response.ok) {
-        const error = new Error('An Error Occured');
-        error.details = data;
-        throw error;
-      }
-      console.log(posts);
-    } catch (error) {
-      console.log(error.message); // An Error Occurred
-      console.log(error.details); // prints response got from server
-    }
-  }
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    // fetchHandler();
-    // getUser();
-    setIsLoading(true);
     //  return () => {
     //    cleanup
     //  }
   }, []);
 
   const signIn = (username, password) => {
-    // let user = await data.getUser(username, password);
-    // if (user !== null) {
-    //   setState(() => {
-    //     return {
-    //       authenticatedUser: user,
-    //     };
-    //   });
-
-    // const cookieOptions = {
-    //   expires: 1, // 1 day
-    // };
-    // Cookies.set('authenticatedUser', JSON.stringify(user), {
-    //   cookieOptions,
-    // });
-
     const apiBaseUrl = `http://localhost:5000/api/users`;
 
     let encodedCredentials = btoa(`${username}:${password}`);
 
-    return fetch(apiBaseUrl, {
+    fetch(apiBaseUrl, {
       method: 'GET',
-      mode: 'cors',
-      credentials: 'same-origin', // include, *same-origin, omit
+      // mode: 'cors',
+      // credentials: 'same-origin', // include, *same-origin, omit
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Basic ${encodedCredentials}`,
       },
     })
       .then((res) => {
+        console.log(res.ok);
         if (!res.ok) {
-          // throw Error('Could not fecth data from resource');
-          return Promise.reject(res);
+          const fetchError = new Error('Could not fecth data from resource');
+          setError(fetchError.message);
+          setUser(null);
+          // return Promise.reject(res);
         }
-        res.json();
+        return res.json();
       })
       .then((data) => {
-        console.log('auth-data-', data);
-        setIsLoggedIn(true);
+        // console.log('auth data-', data);
+
+        setError(null);
         setUser(data);
-        setIsError(null);
+        setIsLoggedIn(true);
+        // return { user };
       })
       .catch((err) => {
-        setIsLoggedIn(false);
-        setIsError(err.message);
-        // console.log(err);
+        console.log(err);
+        setError(err.message);
       });
 
-    // return;
+    console.log('auth user-', user);
   };
 
-  // const signOut = () => {
-  //   // setState({ authenticatedUser: null });
-  //   // Cookies.remove('authenticatedUser');
-  // };
+  const signOut = () => {
+    setUser(null);
+    setIsLoggedIn(false);
+  };
 
   return (
     <AuthContext.Provider
       value={{
         user,
+        error,
         isLoggedIn,
         signIn,
-        // signout,
+        signOut,
       }}
     >
       {props.children}

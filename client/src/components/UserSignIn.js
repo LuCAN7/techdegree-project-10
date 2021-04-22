@@ -15,18 +15,10 @@ const UserSignIn = (props) => {
 
   const handleSignin = async (e) => {
     e.preventDefault();
-    // let username = 'joe@smith.com';
-    // let password = 'joepassword';
-    const auser = await signIn(username, password);
-    console.log(isLoggedIn);
-    console.log('USER IS--->', auser);
-    if (auser && isLoggedIn) {
-      console.log('ACCESS');
-      return props.history.push('/signup'); // testing auth routing with /create route
-    } else {
-      console.log('NO ACCESS');
-      props.history.push('/signin'); // testing auth routing with /create route
-    }
+    signIn(username, password);
+    setUsername('');
+    setPassword('');
+    // props.history.push('/create');
   };
 
   return (
