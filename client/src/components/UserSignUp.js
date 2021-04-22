@@ -9,7 +9,11 @@ const UserSignUp = (props) => {
 
   const handleSignup = (e) => {
     e.preventDefault();
-    props.history.push = '/';
+    props.history.push('/');
+  };
+
+  const handleCancel = (e) => {
+    props.history.push('/');
   };
 
   return (
@@ -41,10 +45,10 @@ const UserSignUp = (props) => {
             type='password'
             value={confirmPassword}
           />
-          <button className='button' type='submit'>
+          <button className='button' type='submit' onClick={handleSignup}>
             Sign Up
           </button>
-          <button className='button button-secondary' onClick={handleSignup}>
+          <button className='button button-secondary' onClick={handleCancel}>
             Cancel
           </button>
         </form>
