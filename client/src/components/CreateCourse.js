@@ -2,6 +2,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const CreateCourse = () => {
+  // *--Todo--*
+  // []-set a state value for inputs
+  // []-define handleUpdate function to 'POST' to db
+  // []-console log the response object
+
   const handleUpdate = (e) => {
     e.preventDefault();
     console.log(e.target);
@@ -10,6 +15,7 @@ const CreateCourse = () => {
     <main>
       <div className='wrap'>
         <h2>Create Course</h2>
+        {/* Validation Errors will go here */}
         <div className='validation--errors'>
           <h3>Validation Errors</h3>
           <ul>
@@ -17,6 +23,7 @@ const CreateCourse = () => {
             <li>Please provide a value for "Description"</li>
           </ul>
         </div>
+        {/******/}
         <form>
           <div className='main--flex'>
             <div>
