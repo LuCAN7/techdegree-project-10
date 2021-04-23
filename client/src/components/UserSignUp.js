@@ -9,7 +9,24 @@ const UserSignUp = (props) => {
 
   const handleSignup = (e) => {
     e.preventDefault();
-    props.history.push('/');
+
+    fetch(`http://localhost:5000/api/users`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+      body: JSON.stringify({
+        firstName: name,
+        lastName: 'password', // api requires a lastname but react/form doesn't have a input field
+        emailAddress: email,
+        password: confirmPassword,
+      }),
+    }).then((res) => console.log('HERE==>>', res));
+    // res.json())
+    // .then((resJSON) => {
+    //   console.log(resJSON);
+    //   // props.history.push('/create');
+    // });
   };
 
   const handleCancel = (e) => {

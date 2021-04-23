@@ -21,9 +21,9 @@ const AuthContextProvider = (props) => {
     fetch(apiBaseUrl, {
       method: 'GET',
       // mode: 'cors',
-      // credentials: 'same-origin', // include, *same-origin, omit
+      credentials: 'same-origin', // include, *same-origin, omit
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json; charset=UTF-8',
         Authorization: `Basic ${encodedCredentials}`,
       },
     })
