@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { AuthContext } from './context/AuthContext';
 
 const UserSignUp = (props) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+
+  const { signIn } = useContext(AuthContext);
 
   const handleSignup = (e) => {
     e.preventDefault();
@@ -21,12 +24,11 @@ const UserSignUp = (props) => {
         emailAddress: email,
         password: confirmPassword,
       }),
-    }).then((res) => console.log('HERE==>>', res));
-    // res.json())
-    // .then((resJSON) => {
-    //   console.log(resJSON);
-    //   // props.history.push('/create');
-    // });
+    }).then((res) => {
+      // console.log('HERE==>>', res);
+      signIn(email, confirmPassword);
+      props.history.push('/create');
+    });
   };
 
   const handleCancel = (e) => {
