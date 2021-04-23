@@ -23,13 +23,24 @@ const UserSignUp = (props) => {
 
         <form>
           <label htmlFor='name'>Name</label>
-          <input id='name' name='name' type='text' value={name} />
+          <input
+            id='name'
+            name='name'
+            type='text'
+            value={name}
+            onChange={(e) => {
+              setName(e.target.value);
+            }}
+          />
           <label htmlFor='emailAddress'>Email Address</label>
           <input
             id='emailAddress'
             name='emailAddress'
             type='email'
             value={email}
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
           />
           <label htmlFor='password'>Password</label>
           <input
@@ -37,6 +48,9 @@ const UserSignUp = (props) => {
             name='password'
             type='password'
             value={password}
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
           />
           <label htmlFor='confirmPassword'>Confirm Password</label>
           <input
@@ -44,6 +58,9 @@ const UserSignUp = (props) => {
             name='confirmPassword'
             type='password'
             value={confirmPassword}
+            onChange={(e) => {
+              setConfirmPassword(e.target.value);
+            }}
           />
           <button className='button' type='submit' onClick={handleSignup}>
             Sign Up
