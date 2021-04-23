@@ -8,7 +8,7 @@ const UserSignUp = (props) => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
-  const { signIn } = useContext(AuthContext);
+  const { signIn, signOut } = useContext(AuthContext);
 
   const handleSignup = (e) => {
     e.preventDefault();
@@ -32,6 +32,7 @@ const UserSignUp = (props) => {
   };
 
   const handleCancel = (e) => {
+    signOut();
     props.history.push('/');
   };
 
