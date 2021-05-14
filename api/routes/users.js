@@ -24,8 +24,13 @@ router.get(
     const user = req.currentUser;
 
     res.status(200).json({
-      login: user.emailAddress,
-      name: user.firstName,
+      // login: user.emailAddress,
+      // name: user.firstName,
+
+      firstName: user.firstName,
+      lastName: user.lastName,
+      emailAdress: user.emailAddress,
+      userId: user.id,
     });
   })
 );

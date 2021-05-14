@@ -8,6 +8,7 @@ const AuthContextProvider = (props) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    // signIn();
     //  return () => {
     //    cleanup
     //  }
@@ -35,22 +36,23 @@ const AuthContextProvider = (props) => {
           setUser(null);
           // return Promise.reject(res);
         }
+
         return res.json();
       })
       .then((data) => {
-        // console.log('auth data-', data);
-
         setError(null);
-        setUser(data);
+        setUser((prevState) => {
+          data.credentials = encodedCredentials;
+          // console.log(data);
+          return data;
+        });
+
         setIsLoggedIn(true);
-        // return { user };
       })
       .catch((err) => {
         console.log(err);
         setError(err.message);
       });
-
-    console.log('auth user-', user);
   };
 
   const signOut = () => {

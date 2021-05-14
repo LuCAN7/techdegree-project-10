@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { AuthContext } from './context/AuthContext';
+import UserSignOut from './UserSignOut';
 
-const Header = () => {
+const Header = (props) => {
+  const { isLoggedIn, user } = useContext(AuthContext);
+
   return (
     <div>
       <header>
@@ -12,45 +16,33 @@ const Header = () => {
             </Link>
           </h1>
           <nav>
-            <ul className='header--signedout'>
-              <li>
-                <Link className='signup' to='/signup'>
-                  Sign Up
-                </Link>
-              </li>
-              <li>
-                <Link className='signin' to='/signin'>
-                  Sign In
-                </Link>
-              </li>
-            </ul>
+            {isLoggedIn ? (
+              <ul className='header--signedin'>
+                <li>
+                  Welcome, {user.firstName} {user.lastName}
+                </li>
+                <li>
+                  <Link to='/signout'>Sign Out</Link>
+                </li>
+              </ul>
+            ) : (
+              <ul className='header--signedout'>
+                <li>
+                  <Link className='signup' to='/signup'>
+                    Sign Up
+                  </Link>
+                </li>
+                <li>
+                  <Link className='signin' to='/signin'>
+                    Sign In
+                  </Link>
+                </li>
+              </ul>
+            )}
           </nav>
         </div>
       </header>
     </div>
-
-    // const { context } = this.props;
-    //     const authUser = context.authenticatedUser;
-    //     return (
-    //       <div className="header">
-    //         <div className="bounds">
-    //           <h1 className="header--logo">MyAuth</h1>
-    //           <nav>
-    //             {authUser ? (
-    //               <React.Fragment>
-    //                 <span>Welcome, {authUser.name}!</span>
-    //                 <Link to="/signout">Sign Out</Link>
-    //               </React.Fragment>
-    //             ) : (
-    //               <React.Fragment>
-    //                 <Link className="signup" to="/signup">Sign Up</Link>
-    //                 <Link className="signin" to="/signin">Sign In</Link>
-    //               </React.Fragment>
-    //             )}
-    //           </nav>
-    //         </div>
-    //       </div>
-    //     );
   );
 };
 

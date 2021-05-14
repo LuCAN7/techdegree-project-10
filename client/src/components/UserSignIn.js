@@ -19,7 +19,7 @@ const UserSignIn = (props) => {
     signIn(username, password);
     setUsername('');
     setPassword('');
-    // props.history.push('/create');
+    props.history.push('/');
   };
 
   return (
@@ -28,7 +28,7 @@ const UserSignIn = (props) => {
         <h2>Sign In</h2>
 
         <form className='form'>
-          <label htmlFor='emailAddress'>Email Address</label>
+          <label htmlfor='emailAddress'>Email Address</label>
           <input
             id='emailAddress'
             name='emailAddress'
@@ -36,7 +36,7 @@ const UserSignIn = (props) => {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
-          <label htlmFor='password'>Password</label>
+          <label htlmfor='password'>Password</label>
           <input
             id='password'
             name='password'

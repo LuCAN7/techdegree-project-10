@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+// import { AuthContext } from './context/AuthContext';
 
 export const CourseContext = React.createContext();
 
 const CourseContextProvider = (props) => {
+  // const { user, isLoggedIn } = useContext(AuthContext);
   const [isLoading, setIsLoading] = useState(true);
   const [courses, setCourses] = useState([]);
   // const [course, setCourse] = useState({});
@@ -26,13 +28,14 @@ const CourseContextProvider = (props) => {
   }, []);
 
   const handleAddCourse = (course) => {
+    // console.log('USER IN COURSE', user);
+    // console.log(isLoggedIn);
     setCourses((prevState) => {
       return [
         ...prevState,
         {
           course,
           user: 0,
-          // id: (id += 1),
         },
       ];
     });

@@ -2,6 +2,7 @@
 
 const Sequelize = require('sequelize');
 const sequelize = require('../db');
+const User = require('./user');
 
 const Course = sequelize.define('Course', {
   id: {
@@ -39,6 +40,9 @@ const Course = sequelize.define('Course', {
       },
     },
   },
+  // userId: {
+  //   type: Sequelize.INTEGER,
+  // },
   estimatedTime: {
     type: Sequelize.STRING,
     allowNull: true,

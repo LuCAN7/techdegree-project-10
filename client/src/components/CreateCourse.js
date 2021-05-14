@@ -1,21 +1,42 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { AuthContext } from './context/AuthContext';
 
-const CreateCourse = () => {
-  // *--Todo--*
-  // [x]-set a state value for inputs
-  // []-define handleUpdate function to 'POST' to db
-  // []-console log the response object
+const CreateCourse = (props) => {
+  const { user, auth, error, isLoggedIn } = useContext(AuthContext);
 
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
   const [description, setDescription] = useState('');
-  const [estimate, setEstimate] = useState('');
+  const [estimateTime, setEstimateTime] = useState('');
   const [materialsNeeded, setMaterialsNeeded] = useState('');
 
-  const handleUpdate = (e) => {
+  const handleCreate = (e) => {
     e.preventDefault();
-    console.log(e.target);
+    // let encodedCredentials = btoa(`${user.login}:${user.password}`);
+    const value = {
+      title,
+      description,
+      estimateTime,
+      materialsNeeded,
+      userId: user.userId,
+    };
+    fetch('http://localhost:5000/api/courses', {
+      method: 'POST',
+      body: JSON.stringify(value),
+      headers: {
+        'Content-Type': 'application/json',
+        // Authorization: `Basic ${encodedCredentials}`,
+        // Authorization: `Basic ${auth}`,
+        Authorization: `Basic ${user.credentials}`,
+      },
+    })
+      .then((res) => {
+        props.history.push('/');
+        if (!res.ok) props.history.push('/create');
+      })
+      .catch((err) => console.log(err));
   };
+
   return (
     <main>
       <div className='wrap'>
@@ -28,11 +49,11 @@ const CreateCourse = () => {
             <li>Please provide a value for "Description"</li>
           </ul>
         </div>
-        {/******/}
+        {/*Validation Errors will go here*/}
         <form>
           <div className='main--flex'>
             <div>
-              <label HtmlFor='courseTitle'>Course Title</label>
+              <label htmlFor='courseTitle'>Course Title</label>
               <input
                 id='courseTitle'
                 name='courseTitle'
@@ -41,7 +62,7 @@ const CreateCourse = () => {
                 onChange={(e) => setTitle(e.target.value)}
               />
 
-              <label HtmlFor='courseAuthor'>Course Author</label>
+              <label htmlFor='courseAuthor'>Course Author</label>
               <input
                 id='courseAuthor'
                 name='courseAuthor'
@@ -50,7 +71,7 @@ const CreateCourse = () => {
                 onChange={(e) => setAuthor(e.target.value)}
               />
 
-              <label HtmlFor='courseDescription'>Course Description</label>
+              <label htmlFor='courseDescription'>Course Description</label>
               <textarea
                 id='courseDescription'
                 name='courseDescription'
@@ -59,16 +80,16 @@ const CreateCourse = () => {
               ></textarea>
             </div>
             <div>
-              <label HtmlFor='estimatedTime'>Estimated Time</label>
+              <label htmlFor='estimatedTime'>Estimated Time</label>
               <input
                 id='estimatedTime'
                 name='estimatedTime'
                 type='text'
-                value={estimate}
-                onChange={(e) => setEstimate(e.target.value)}
+                value={estimateTime}
+                onChange={(e) => setEstimateTime(e.target.value)}
               />
 
-              <label HtmlFor='materialsNeeded'>Materials Needed</label>
+              <label htmlFor='materialsNeeded'>Materials Needed</label>
               <textarea
                 id='materialsNeeded'
                 name='materialsNeeded'
@@ -77,12 +98,10 @@ const CreateCourse = () => {
               ></textarea>
             </div>
           </div>
-          <button className='button' type='submit'>
+          <button className='button' type='submit' onClick={handleCreate}>
             Create Course
           </button>
-          <button className='button button-secondary' onClick={handleUpdate}>
-            Cancel
-          </button>
+          <button className='button button-secondary'>Cancel</button>
         </form>
       </div>
     </main>

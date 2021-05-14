@@ -8,8 +8,8 @@ const cors = require('cors');
 
 // const Sequelize = require('sequelize');
 const sequelize = require('./db');
-const User = require('./models/user');
-const Course = require('./models/course');
+// const User = require('./models/user');
+// const Course = require('./models/course');
 
 const routes = require('./routes/index');
 const userRoutes = require('./routes/users');
@@ -31,7 +31,7 @@ app.use(cors());
 
 // setup morgan which gives us http request logging
 app.use(morgan('dev'));
-app.use(bodyParser.json());
+app.use(express.json());
 // app.use(express.urlencoded({ extended: false }));
 
 sequelize
@@ -43,12 +43,12 @@ sequelize
     console.log(err);
   });
 
-User.hasMany(Course);
-// Create Model Associates
-Course.belongsTo(User, {
-  foreignKey: 'userId',
-  onDelete: 'CASCADE',
-});
+// User.hasMany(Course);
+// // Create Model Associates
+// Course.belongsTo(User, {
+//   foreignKey: 'userId',
+//   onDelete: 'CASCADE',
+// });
 
 sequelize
   .sync()

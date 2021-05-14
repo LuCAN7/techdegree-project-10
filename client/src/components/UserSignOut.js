@@ -1,10 +1,17 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { Redirect } from 'react-router-dom';
+import { AuthContext } from './context/AuthContext';
 
-const UserSignOut = () => {
+const UserSignOut = (props) => {
+  const { signOut } = useContext(AuthContext);
+  // This should: Remove the authenticated user and password from the global state.
+  signOut();
+  // props.history.push('/');
+
   return (
-    <div>
-      <h2>User SignOut</h2>
-    </div>
+    <>
+      <Redirect to={{ pathname: '/', state: { from: props.location } }} />;
+    </>
   );
 };
 

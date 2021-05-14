@@ -11,24 +11,27 @@ import UserSignUp from './components/UserSignUp';
 import UserSignOut from './components/UserSignOut';
 import CourseContextProvider from './components/context/CourseContext';
 import AuthContextProvider from './components/context/AuthContext';
+import Private from './components/Private';
 
 function App() {
   return (
     <Router>
       <div>
-        <Header />
         <Switch>
-          <CourseContextProvider>
-            <AuthContextProvider>
+          <AuthContextProvider>
+            <Header />
+            <CourseContextProvider>
               <Route exact path='/' component={Courses} />
-              <Route path='/create' component={CreateCourse} />
-              <Route path='/:id/update' component={UpdateCourse} />
+
+              <Private path='/create' exact component={CreateCourse} />
+              <Private path='/:id/update' component={UpdateCourse} />
+
               <Route path='/courses/:id' component={CourseDetail} />
               <Route path='/signin' component={UserSignIn} />
               <Route path='/signup' component={UserSignUp} />
               <Route path='/signout' component={UserSignOut} />
-            </AuthContextProvider>
-          </CourseContextProvider>
+            </CourseContextProvider>
+          </AuthContextProvider>
         </Switch>
       </div>
     </Router>

@@ -2,6 +2,7 @@
 
 const Sequelize = require('sequelize');
 const sequelize = require('../db');
+const Course = require('./course');
 
 const User = sequelize.define('User', {
   // Model attributes are defined here
@@ -63,6 +64,12 @@ const User = sequelize.define('User', {
       },
     },
   },
+});
+
+User.hasMany(Course);
+Course.belongsTo(User, {
+  foreignKey: 'userId',
+  onDelete: 'CASCADE',
 });
 
 module.exports = User;
