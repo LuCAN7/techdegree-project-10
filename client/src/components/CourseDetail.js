@@ -1,13 +1,22 @@
 import React, { useEffect, useContext } from 'react';
 import { Link, Route, useParams } from 'react-router-dom';
+import { AuthContext } from './context/AuthContext';
 import { CourseContext } from './context/CourseContext';
+import Forbidden from './Forbidden';
 import NotFound from './NotFound';
 
 const CourseDetail = (props) => {
   const { courses, isLoading, actions } = useContext(CourseContext);
+  const { user, isLoggedIn } = useContext(AuthContext);
   let { id } = useParams();
-
+  let auth = true;
   let course = courses.find((c) => c.id == id);
+  // console.log('COURSE IS: ', course);
+  // Restrict access to updating and deleting courses
+  // On the "Course Detail" screen, add rendering logic so that the "Update Course" and "Delete Course" buttons
+  // only display if:
+  // There's an authenticated user.
+  // And the authenticated user's ID matches that of the user who owns the course.
 
   return (
     <>
@@ -16,17 +25,25 @@ const CourseDetail = (props) => {
       ) : (
         <main>
           <div className='actions--bar'>
-            <div className='wrap'>
-              <Link className='button' to='/:id/update'>
-                Update Course
-              </Link>
-              <Link className='button' to='/'>
-                Delete Course
-              </Link>
-              <Link className='button button-secondary' to='/'>
-                Return to List
-              </Link>
-            </div>
+            {isLoggedIn && course.User.id === user.userId ? (
+              <div className='wrap'>
+                <Link className='button' to='/:id/update'>
+                  Update Course
+                </Link>
+                <Link className='button' to='/'>
+                  Delete Course
+                </Link>
+                <Link className='button button-secondary' to='/'>
+                  Return to List
+                </Link>
+              </div>
+            ) : (
+              <div className='wrap'>
+                <Link className='button button-secondary' to='/'>
+                  Return to List
+                </Link>
+              </div>
+            )}
           </div>
           {course ? (
             <div className='wrap'>
