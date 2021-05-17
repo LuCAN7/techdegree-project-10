@@ -62,12 +62,10 @@ router.post(
       const course = await Course.create(req.body);
       const user = req.currentUser;
 
-      // console.log('POSTED USER --> ', user.id);
-      // console.log('NEW COURSE --> ', course.id);
+      // Not sure if I'm required to return course as json()
+      return res.json(course).status(201).end();
 
-      // [ ] Check what other response look like after course creation?
-      return res.location(`/courses/${course.id}`).status(201).end();
-      return res.status(201).location(`/api/courses/${course.id}`).end();
+      // res.status(201).location(`/api/courses/${course.id}`).end();
     } catch (error) {
       if (
         error.name === 'SequelizeValidationError' ||

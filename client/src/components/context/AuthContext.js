@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
 export const AuthContext = React.createContext();
 
@@ -43,7 +43,6 @@ const AuthContextProvider = (props) => {
         setError(null);
         setUser((prevState) => {
           data.credentials = encodedCredentials;
-          // console.log(data);
           return data;
         });
 

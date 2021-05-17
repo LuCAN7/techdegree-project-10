@@ -12,6 +12,7 @@ const UserSignUp = (props) => {
 
   const handleSignup = (e) => {
     e.preventDefault();
+    let userName = name.split(' ');
 
     fetch(`http://localhost:5000/api/users`, {
       method: 'POST',
@@ -19,15 +20,15 @@ const UserSignUp = (props) => {
         'Content-Type': 'application/json;charset=UTF-8',
       },
       body: JSON.stringify({
-        firstName: name,
-        lastName: 'password', // api requires a lastname but react/form doesn't have a input field
+        firstName: userName[0],
+        lastName: userName[1],
         emailAddress: email,
         password: confirmPassword,
       }),
     }).then((res) => {
       // console.log('HERE==>>', res);
       signIn(email, confirmPassword);
-      props.history.push('/create');
+      props.history.push('/');
     });
   };
 
@@ -40,7 +41,14 @@ const UserSignUp = (props) => {
     <main>
       <div className='form--centered'>
         <h2>Sign Up</h2>
-
+        <div className='validation--errors'>
+          <h3>Validation Errors</h3>
+          <ul>
+            <li>Please provide a value for "Name"</li>
+            <li>Please provide a value for "Email"</li>
+            <li>Please provide a value for "Password"</li>
+          </ul>
+        </div>
         <form>
           <label htmlFor='name'>Name</label>
           <input

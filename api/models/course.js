@@ -40,9 +40,6 @@ const Course = sequelize.define('Course', {
       },
     },
   },
-  // userId: {
-  //   type: Sequelize.INTEGER,
-  // },
   estimatedTime: {
     type: Sequelize.STRING,
     allowNull: true,

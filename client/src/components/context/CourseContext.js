@@ -1,53 +1,74 @@
 import React, { useState, useEffect, useContext } from 'react';
-// import { AuthContext } from './context/AuthContext';
+import { AuthContext } from './AuthContext';
 
 export const CourseContext = React.createContext();
 
 const CourseContextProvider = (props) => {
-  // const { user, isLoggedIn } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const [isLoading, setIsLoading] = useState(true);
   const [courses, setCourses] = useState([]);
-  // const [course, setCourse] = useState({});
 
-  function getCourse() {
-    const apiBaseUrl = `http://localhost:5000/api/courses`;
-    fetch(apiBaseUrl)
+  const handleFetchCourse = () => {
+    fetch('http://localhost:5000/api/courses')
       .then((res) => res.json())
-      .then((data) => {
+      .then((courseData) => {
         setIsLoading(false);
-        setCourses(data);
+        setCourses(courseData);
       });
-  }
-
-  useEffect(() => {
-    getCourse();
-    setIsLoading(true);
-    //  return () => {
-    //    cleanup
-    //  }
-  }, []);
+  };
 
   const handleAddCourse = (course) => {
-    // console.log('USER IN COURSE', user);
-    // console.log(isLoggedIn);
-    setCourses((prevState) => {
-      return [
-        ...prevState,
-        {
-          course,
-          user: 0,
-        },
-      ];
-    });
+    fetch('http://localhost:5000/api/courses', {
+      method: 'POST',
+      body: JSON.stringify(course),
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Basic ${user.credentials}`,
+      },
+    })
+      .then((res) => {
+        res.json();
+      })
+      .then((course) => {
+        setCourses((prevState) => {
+          return [
+            ...prevState,
+            {
+              course,
+            },
+          ];
+        });
+        handleFetchCourse();
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const handleUpdateCourse = ({ updateCourse, id }) => {
+    fetch(`http://localhost:5000/api/courses/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(updateCourse),
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Basic ${user.credentials}`,
+      },
+    })
+      .then((res) => {
+        handleFetchCourse();
+      })
+      .catch((err) => console.log(err));
   };
 
   const handleRemoveCourse = (id) => {
     setCourses((prevState) => prevState.filter((p) => p.id !== id));
   };
 
-  const handleUpdateCourse = (id) => {
-    console.log(id);
-  };
+  useEffect(() => {
+    handleFetchCourse();
+    setIsLoading(true);
+    //  return () => {
+    //    cleanup
+    //  }
+  }, []);
 
   return (
     <CourseContext.Provider

@@ -1,15 +1,14 @@
 import React, { useContext, useState } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { AuthContext } from './context/AuthContext';
 
 const UserSignIn = (props) => {
-  const { isLoggedIn, signIn, signOut } = useContext(AuthContext);
+  const { signIn } = useContext(AuthContext);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSignout = (e) => {
+  const handleCancel = (e) => {
     e.preventDefault();
-    signOut();
     props.history.push('/');
     // console.log(props);
   };
@@ -28,7 +27,7 @@ const UserSignIn = (props) => {
         <h2>Sign In</h2>
 
         <form className='form'>
-          <label htmlfor='emailAddress'>Email Address</label>
+          <label htmlFor='emailAddress'>Email Address</label>
           <input
             id='emailAddress'
             name='emailAddress'
@@ -36,7 +35,7 @@ const UserSignIn = (props) => {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
-          <label htlmfor='password'>Password</label>
+          <label htmlFor='password'>Password</label>
           <input
             id='password'
             name='password'
@@ -47,7 +46,7 @@ const UserSignIn = (props) => {
           <button className='button' type='submit' onClick={handleSignin}>
             Sign In
           </button>
-          <button className='button button-secondary' onClick={handleSignout}>
+          <button className='button button-secondary' onClick={handleCancel}>
             Cancel
           </button>
         </form>

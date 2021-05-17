@@ -1,40 +1,35 @@
 import React, { useState, useContext } from 'react';
 import { AuthContext } from './context/AuthContext';
+import { CourseContext } from './context/CourseContext';
 
 const CreateCourse = (props) => {
-  const { user, auth, error, isLoggedIn } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
+  const { actions } = useContext(CourseContext);
 
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
   const [description, setDescription] = useState('');
-  const [estimateTime, setEstimateTime] = useState('');
+  const [estimatedTime, setEstimatedTime] = useState('');
   const [materialsNeeded, setMaterialsNeeded] = useState('');
 
   const handleCreate = (e) => {
     e.preventDefault();
-    // let encodedCredentials = btoa(`${user.login}:${user.password}`);
-    const value = {
+
+    const newCourse = {
       title,
       description,
-      estimateTime,
+      estimatedTime,
       materialsNeeded,
       userId: user.userId,
     };
-    fetch('http://localhost:5000/api/courses', {
-      method: 'POST',
-      body: JSON.stringify(value),
-      headers: {
-        'Content-Type': 'application/json',
-        // Authorization: `Basic ${encodedCredentials}`,
-        // Authorization: `Basic ${auth}`,
-        Authorization: `Basic ${user.credentials}`,
-      },
-    })
-      .then((res) => {
-        props.history.push('/');
-        if (!res.ok) props.history.push('/create');
-      })
-      .catch((err) => console.log(err));
+
+    actions.addCourse(newCourse);
+    props.history.push('/');
+    // props.history.push(`/courses/${id}`);
+  };
+  const handleCancel = (e) => {
+    e.preventDefault();
+    props.history.push('/');
   };
 
   return (
@@ -85,8 +80,8 @@ const CreateCourse = (props) => {
                 id='estimatedTime'
                 name='estimatedTime'
                 type='text'
-                value={estimateTime}
-                onChange={(e) => setEstimateTime(e.target.value)}
+                value={estimatedTime}
+                onChange={(e) => setEstimatedTime(e.target.value)}
               />
 
               <label htmlFor='materialsNeeded'>Materials Needed</label>
@@ -101,7 +96,9 @@ const CreateCourse = (props) => {
           <button className='button' type='submit' onClick={handleCreate}>
             Create Course
           </button>
-          <button className='button button-secondary'>Cancel</button>
+          <button className='button button-secondary' onClick={handleCancel}>
+            Cancel
+          </button>
         </form>
       </div>
     </main>

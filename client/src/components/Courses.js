@@ -1,9 +1,9 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { CourseContext } from './context/CourseContext';
 
 const Courses = () => {
-  const { courses, isLoading, actions } = useContext(CourseContext);
+  const { courses, isLoading } = useContext(CourseContext);
 
   return (
     <main>
