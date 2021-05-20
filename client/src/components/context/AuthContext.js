@@ -29,18 +29,20 @@ const AuthContextProvider = (props) => {
       },
     })
       .then((res) => {
-        console.log(res.ok);
+        // console.log(res.status);
         if (!res.ok) {
-          const fetchError = new Error('Could not fecth data from resource');
-          setError(fetchError.message);
+          // const fetchError = new Error('Could not fecth data from resource');
+          // setError(fetchError.message);
           setUser(null);
+          // console.log('RES SignIn--->', res);
           // return Promise.reject(res);
         }
 
         return res.json();
       })
       .then((data) => {
-        setError(null);
+        console.log('AUTH RES DATA - Is there an error? HERE==>>', data);
+        // setError(null);
         setUser((prevState) => {
           data.credentials = encodedCredentials;
           return data;
@@ -49,7 +51,7 @@ const AuthContextProvider = (props) => {
         setIsLoggedIn(true);
       })
       .catch((err) => {
-        console.log(err);
+        console.log('SIGNIN ERROR--->', err.message);
         setError(err.message);
       });
   };

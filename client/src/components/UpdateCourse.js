@@ -18,6 +18,8 @@ const UpdateCourse = (props) => {
   const [materialsNeeded, setMaterialsNeeded] = useState(
     '' || course.materialsNeeded
   );
+  const [errors, setErrors] = useState(null);
+
   const handleUpdate = (e) => {
     e.preventDefault();
     let updateCourse = {
@@ -42,6 +44,7 @@ const UpdateCourse = (props) => {
       <div className='wrap'>
         <h2>Update Course</h2>
         {/* Validation Errors will go here */}
+        {}
         <div className='validation--errors'>
           <h3>Validation Errors</h3>
           <ul>

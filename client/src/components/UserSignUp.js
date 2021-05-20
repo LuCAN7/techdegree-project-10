@@ -7,9 +7,10 @@ const UserSignUp = (props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [errors, setErrors] = useState(null);
 
   const { signIn, signOut } = useContext(AuthContext);
-
+  // const test = false;
   const handleSignup = (e) => {
     e.preventDefault();
     let userName = name.split(' ');
@@ -25,11 +26,25 @@ const UserSignUp = (props) => {
         emailAddress: email,
         password: confirmPassword,
       }),
-    }).then((res) => {
-      // console.log('HERE==>>', res);
-      signIn(email, confirmPassword);
-      props.history.push('/');
-    });
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        if (data.Errors) {
+          console.log(
+            'SIGN RES DATA - Is there an error? HERE==>>',
+            data.Errors
+          );
+
+          setErrors((prev) => data.Errors);
+          return errors;
+        }
+        signIn(email, confirmPassword);
+        // props.history.push('/');
+      })
+      .catch((err) => console.error('fethError', err));
+    // console.error('There has been a problem with your fetch operation:', error);
   };
 
   const handleCancel = (e) => {
@@ -41,14 +56,18 @@ const UserSignUp = (props) => {
     <main>
       <div className='form--centered'>
         <h2>Sign Up</h2>
-        <div className='validation--errors'>
-          <h3>Validation Errors</h3>
-          <ul>
-            <li>Please provide a value for "Name"</li>
-            <li>Please provide a value for "Email"</li>
-            <li>Please provide a value for "Password"</li>
-          </ul>
-        </div>
+        {errors === null ? (
+          ''
+        ) : (
+          <div className='validation--errors'>
+            <h3>Validation Errors</h3>
+            <ul>
+              {errors.map((e) => {
+                return <li>{e}</li>;
+              })}
+            </ul>
+          </div>
+        )}
         <form>
           <label htmlFor='name'>Name</label>
           <input

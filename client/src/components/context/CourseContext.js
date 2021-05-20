@@ -7,6 +7,7 @@ const CourseContextProvider = (props) => {
   const { user } = useContext(AuthContext);
   const [isLoading, setIsLoading] = useState(true);
   const [courses, setCourses] = useState([]);
+  const [errors, setErrors] = useState(null);
 
   const handleFetchCourse = () => {
     fetch('http://localhost:5000/api/courses')
