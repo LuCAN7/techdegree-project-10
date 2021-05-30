@@ -32,10 +32,7 @@ const UserSignUp = (props) => {
       })
       .then((data) => {
         if (data.Errors) {
-          console.log(
-            'SIGN RES DATA - Is there an error? HERE==>>',
-            data.Errors
-          );
+          console.log('SIGNUP - There is an error? HERE==>>', data.Errors);
 
           setErrors((prev) => data.Errors);
           return errors;
@@ -43,7 +40,7 @@ const UserSignUp = (props) => {
         signIn(email, confirmPassword);
         // props.history.push('/');
       })
-      .catch((err) => console.error('fethError', err));
+      .catch((err) => console.error(err));
     // console.error('There has been a problem with your fetch operation:', error);
   };
 
@@ -62,8 +59,8 @@ const UserSignUp = (props) => {
           <div className='validation--errors'>
             <h3>Validation Errors</h3>
             <ul>
-              {errors.map((e) => {
-                return <li>{e}</li>;
+              {errors.map((e, i) => {
+                return <li key={i}>{e}</li>;
               })}
             </ul>
           </div>

@@ -4,10 +4,9 @@ import { AuthContext } from './context/AuthContext';
 import { CourseContext } from './context/CourseContext';
 
 const UpdateCourse = (props) => {
-  const { courses, actions } = useContext(CourseContext);
+  const { courses, actions, errors } = useContext(CourseContext);
   const { user } = useContext(AuthContext);
   const { id } = useParams();
-
   let course = courses.find((c) => c.id == id);
   let fullName = `${course.User.firstName} ${course.User.lastName}`;
   const [title, setTitle] = useState('' || course.title);
@@ -18,11 +17,10 @@ const UpdateCourse = (props) => {
   const [materialsNeeded, setMaterialsNeeded] = useState(
     '' || course.materialsNeeded
   );
-  const [errors, setErrors] = useState(null);
 
   const handleUpdate = (e) => {
     e.preventDefault();
-    let updateCourse = {
+    let updatedCourse = {
       title,
       description,
       estimatedTime,
@@ -30,29 +28,42 @@ const UpdateCourse = (props) => {
       userId: user.userId,
     };
 
-    actions.updateCourse({ updateCourse, id });
-    props.history.push('/');
+    actions.updateCourse(updatedCourse, id);
+
+    console.log(Array.isArray(errors));
+    console.log(errors.length);
+    Boolean;
+    if (errors.length > 0) {
+      props.history.push(`/${id}/update`);
+    } else {
+      props.history.push(`/courses/${id}`);
+    }
   };
+
   const handleCancel = (e) => {
-    console.log('CANCEL UPDATE');
     e.preventDefault();
-    props.history.push('/');
+    props.history.push(`/courses/${id}`);
   };
 
   return (
     <main>
       <div className='wrap'>
         <h2>Update Course</h2>
-        {/* Validation Errors will go here */}
-        {}
-        <div className='validation--errors'>
-          <h3>Validation Errors</h3>
-          <ul>
-            <li>Please provide a value for "Title"</li>
-            <li>Please provide a value for "Description"</li>
-          </ul>
-        </div>
-        {/*Validation Errors will go here*/}
+        {errors.length < 0 ? (
+          ' '
+        ) : (
+          <div className='validation--errors'>
+            <h3>Validation Errors</h3>
+            <ul>
+              {
+                // Object.values(errors)
+                Object.entries(errors).map((e) => {
+                  return <li>{e}</li>;
+                })
+              }
+            </ul>
+          </div>
+        )}
         <form>
           <div className='main--flex'>
             <div>

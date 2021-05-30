@@ -10,8 +10,7 @@ const CourseDetail = (props) => {
   let { id } = useParams();
 
   let course = courses.find((c) => c.id == id);
-  console.log(course);
-  // console.log(typeof course.id);
+
   return (
     <>
       {isLoading ? (

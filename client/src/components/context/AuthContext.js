@@ -41,7 +41,7 @@ const AuthContextProvider = (props) => {
         return res.json();
       })
       .then((data) => {
-        console.log('AUTH RES DATA - Is there an error? HERE==>>', data);
+        // console.log('AUTH RES DATA - Is there an error? HERE==>>', data);
         // setError(null);
         setUser((prevState) => {
           data.credentials = encodedCredentials;

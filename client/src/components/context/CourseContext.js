@@ -7,7 +7,7 @@ const CourseContextProvider = (props) => {
   const { user } = useContext(AuthContext);
   const [isLoading, setIsLoading] = useState(true);
   const [courses, setCourses] = useState([]);
-  const [errors, setErrors] = useState(null);
+  const [errors, setErrors] = useState([]);
 
   const handleFetchCourse = () => {
     fetch('http://localhost:5000/api/courses')
@@ -27,10 +27,10 @@ const CourseContextProvider = (props) => {
         Authorization: `Basic ${user.credentials}`,
       },
     })
-      .then((res) => {
-        res.json();
-      })
+      .then((res) => res.json())
       .then((course) => {
+        // console.dir(course.Errors);
+
         setCourses((prevState) => {
           return [
             ...prevState,
@@ -44,7 +44,8 @@ const CourseContextProvider = (props) => {
       .catch((err) => console.log(err));
   };
 
-  const handleUpdateCourse = ({ updateCourse, id }) => {
+  const handleUpdateCourse = (updateCourse, id) => {
+    // console.log(typeof updateCourse);
     fetch(`http://localhost:5000/api/courses/${id}`, {
       method: 'PUT',
       body: JSON.stringify(updateCourse),
@@ -55,8 +56,20 @@ const CourseContextProvider = (props) => {
     })
       .then((res) => {
         handleFetchCourse();
+        if (!res.ok) {
+          return res.json().then((data) => {
+            // let err = Object.values(data);
+            console.log(typeof data);
+            setErrors({ data });
+            // setErrors([...errors, data]);
+          });
+        } else {
+          setErrors((prev) => {
+            return [];
+          });
+        }
       })
-      .catch((err) => console.log(err));
+      .catch((error) => console.error('Catch Errors:', error));
   };
 
   const handleRemoveCourse = (id) => {
@@ -76,6 +89,7 @@ const CourseContextProvider = (props) => {
       value={{
         courses,
         isLoading,
+        errors: errors,
         actions: {
           addCourse: handleAddCourse,
           removeCourse: handleRemoveCourse,

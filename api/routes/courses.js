@@ -74,7 +74,8 @@ router.post(
         const err = error.errors.map((err) => err.message);
         res.status(400).json(err);
       } else {
-        next(error);
+        throw error;
+        // next(error);
       }
     }
   })
@@ -114,10 +115,12 @@ router.put(
         error.name === 'SequelizeValidationError' ||
         error.name === 'SequelizeUniqueConstraintError'
       ) {
-        const err = error.errors.map((err) => err.message);
-        res.status(400).json(err);
+        const errors = error.errors.map((err) => err.message);
+        console.log('Route ERROR ---->', typeof errors);
+        return res.status(400).json({ errors });
       } else {
-        next(error);
+        throw error;
+        // next(error);
       }
     }
   })
