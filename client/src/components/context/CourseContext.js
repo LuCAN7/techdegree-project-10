@@ -59,9 +59,9 @@ const CourseContextProvider = (props) => {
         if (!res.ok) {
           return res.json().then((data) => {
             // let err = Object.values(data);
-            console.log(typeof data);
-            setErrors({ data });
+            // console.log(typeof data);
             // setErrors([...errors, data]);
+            setErrors(data);
           });
         } else {
           setErrors((prev) => {

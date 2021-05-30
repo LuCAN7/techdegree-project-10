@@ -31,13 +31,14 @@ const UpdateCourse = (props) => {
     actions.updateCourse(updatedCourse, id);
 
     console.log(Array.isArray(errors));
-    console.log(errors.length);
-    Boolean;
-    if (errors.length > 0) {
-      props.history.push(`/${id}/update`);
-    } else {
-      props.history.push(`/courses/${id}`);
-    }
+    console.log(errors.errors);
+
+    props.history.push(`/courses/${id}`);
+
+    // if (errors.length > 0) {
+    //   props.history.push(`/${id}/update`);
+    // } else {
+    // }
   };
 
   const handleCancel = (e) => {
@@ -49,7 +50,7 @@ const UpdateCourse = (props) => {
     <main>
       <div className='wrap'>
         <h2>Update Course</h2>
-        {errors.length < 0 ? (
+        {errors ? (
           ' '
         ) : (
           <div className='validation--errors'>
@@ -57,7 +58,7 @@ const UpdateCourse = (props) => {
             <ul>
               {
                 // Object.values(errors)
-                Object.entries(errors).map((e) => {
+                errors.map((e) => {
                   return <li>{e}</li>;
                 })
               }
