@@ -33,12 +33,12 @@ const UpdateCourse = (props) => {
     console.log(Array.isArray(errors));
     console.log(errors.errors);
 
-    props.history.push(`/courses/${id}`);
-
-    // if (errors.length > 0) {
-    //   props.history.push(`/${id}/update`);
-    // } else {
-    // }
+    if (errors.errors && errors.errors.length > 0) {
+      props.history.push(`/${id}/update`);
+    } else {
+      props.history.push('/');
+      // props.history.push(`/courses/${id}`);
+    }
   };
 
   const handleCancel = (e) => {

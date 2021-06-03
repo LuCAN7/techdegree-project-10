@@ -62,6 +62,7 @@ const CourseContextProvider = (props) => {
             // console.log(typeof data);
             // setErrors([...errors, data]);
             setErrors(data);
+            return;
           });
         } else {
           setErrors((prev) => {
