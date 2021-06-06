@@ -55,19 +55,25 @@ const CourseContextProvider = (props) => {
       },
     })
       .then((res) => {
-        handleFetchCourse();
         if (!res.ok) {
           return res.json().then((data) => {
             // let err = Object.values(data);
-            // console.log(typeof data);
-            // setErrors([...errors, data]);
-            setErrors(data);
-            return;
+            // console.log('Data Type:', typeof data);
+            setErrors(() => {
+              console.log('Context Error', errors);
+              return data;
+            });
+
+            // setErrors((prev) => {
+            //   return data;
+            // });
+            console.log('Context Error', errors);
+            return errors;
           });
         } else {
-          setErrors((prev) => {
-            return [];
-          });
+          handleFetchCourse();
+          setErrors([]);
+          return;
         }
       })
       .catch((error) => console.error('Catch Errors:', error));

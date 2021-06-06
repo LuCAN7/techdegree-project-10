@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { AuthContext } from './context/AuthContext';
 import { CourseContext } from './context/CourseContext';
@@ -28,16 +28,27 @@ const UpdateCourse = (props) => {
       userId: user.userId,
     };
 
+    // console.log(Array.isArray(errors));
+    console.log('errors', errors);
+    // console.log('errors.errors', errors.errors);
+
     actions.updateCourse(updatedCourse, id);
-
-    console.log(Array.isArray(errors));
-    console.log(errors.errors);
-
     if (errors.errors && errors.errors.length > 0) {
       props.history.push(`/${id}/update`);
+      return;
     } else {
-      props.history.push('/');
-      // props.history.push(`/courses/${id}`);
+      // console.log('Update Errors', errors);
+      // console.log(title);
+      if (title && description) {
+        // console.log('there is a title');
+        props.history.push('/');
+        return;
+      } else {
+        props.history.push(`/${id}/update`);
+        // return;
+      }
+      // props.history.push('/');
+      return;
     }
   };
 
@@ -46,11 +57,15 @@ const UpdateCourse = (props) => {
     props.history.push(`/courses/${id}`);
   };
 
+  useEffect(() => {
+    console.log('useEffect running...');
+  }, [errors]);
+
   return (
     <main>
       <div className='wrap'>
         <h2>Update Course</h2>
-        {errors ? (
+        {!errors.errors ? (
           ' '
         ) : (
           <div className='validation--errors'>
@@ -58,7 +73,7 @@ const UpdateCourse = (props) => {
             <ul>
               {
                 // Object.values(errors)
-                errors.map((e) => {
+                errors.errors.map((e) => {
                   return <li>{e}</li>;
                 })
               }

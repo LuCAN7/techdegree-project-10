@@ -116,7 +116,7 @@ router.put(
         error.name === 'SequelizeUniqueConstraintError'
       ) {
         const errors = error.errors.map((err) => err.message);
-        console.log('Route ERROR ---->', typeof errors);
+        console.log('Route ERROR ---->', errors);
         return res.status(400).json({ errors });
       } else {
         throw error;
