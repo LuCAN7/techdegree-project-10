@@ -57,16 +57,10 @@ const CourseContextProvider = (props) => {
       .then((res) => {
         if (!res.ok) {
           return res.json().then((data) => {
-            // let err = Object.values(data);
-            // console.log('Data Type:', typeof data);
             setErrors(() => {
               console.log('Context Error', errors);
               return data;
             });
-
-            // setErrors((prev) => {
-            //   return data;
-            // });
             console.log('Context Error', errors);
             return errors;
           });
@@ -80,7 +74,7 @@ const CourseContextProvider = (props) => {
   };
 
   const handleRemoveCourse = (id) => {
-    setCourses((prevState) => prevState.filter((p) => p.id !== id));
+    setCourses((prevState) => prevState.filter((p) => p.id !== parseInt(id)));
   };
 
   useEffect(() => {

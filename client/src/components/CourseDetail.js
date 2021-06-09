@@ -1,11 +1,11 @@
 import React, { useContext } from 'react';
-import { Redirect, Link, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { AuthContext } from './context/AuthContext';
 import { CourseContext } from './context/CourseContext';
 import NotFound from './NotFound';
 
 const CourseDetail = (props) => {
-  const { courses, isLoading } = useContext(CourseContext);
+  const { courses, isLoading, actions } = useContext(CourseContext);
   const { user, isLoggedIn } = useContext(AuthContext);
   let { id } = useParams();
 
@@ -23,9 +23,15 @@ const CourseDetail = (props) => {
                 <Link className='button' to={`/${id}/update`}>
                   Update Course
                 </Link>
-                <Link className='button' to='/'>
-                  Delete Course
+                <Link to='/'>
+                  <button
+                    className='button'
+                    onClick={() => actions.removeCourse(id)}
+                  >
+                    Delete Course
+                  </button>
                 </Link>
+
                 <Link className='button button-secondary' to='/'>
                   Return to List
                 </Link>
@@ -63,7 +69,7 @@ const CourseDetail = (props) => {
               </form>
             </div>
           ) : (
-            <Redirect to='/notfound' />
+            <NotFound />
           )}
         </main>
       )}
