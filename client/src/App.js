@@ -12,6 +12,7 @@ import UserSignOut from './components/UserSignOut';
 import CourseContextProvider from './components/context/CourseContext';
 import AuthContextProvider from './components/context/AuthContext';
 import Private from './components/Private';
+import NotFound from './components/NotFound';
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
               <Route path='/signin' component={UserSignIn} />
               <Route path='/signup' component={UserSignUp} />
               <Route path='/signout' component={UserSignOut} />
+              <Route path='/notfound' component={NotFound} />
             </CourseContextProvider>
           </AuthContextProvider>
         </Switch>

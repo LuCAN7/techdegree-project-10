@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Redirect, Link, useParams } from 'react-router-dom';
 import { AuthContext } from './context/AuthContext';
 import { CourseContext } from './context/CourseContext';
 import NotFound from './NotFound';
@@ -63,7 +63,7 @@ const CourseDetail = (props) => {
               </form>
             </div>
           ) : (
-            <NotFound />
+            <Redirect to='/notfound' />
           )}
         </main>
       )}

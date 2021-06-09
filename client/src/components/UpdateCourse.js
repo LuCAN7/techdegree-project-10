@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { AuthContext } from './context/AuthContext';
 import { CourseContext } from './context/CourseContext';
+import Forbidden from './Forbidden';
 
 const UpdateCourse = (props) => {
   const { courses, actions, errors } = useContext(CourseContext);
@@ -58,107 +59,114 @@ const UpdateCourse = (props) => {
   };
 
   useEffect(() => {
+    // check user.userId to course.User.userId
+    console.log(user);
+    console.log(course);
     console.log('useEffect running...');
   }, [errors]);
 
   return (
     <main>
-      <div className='wrap'>
-        <h2>Update Course</h2>
-        {!errors.errors ? (
-          ' '
-        ) : (
-          <div className='validation--errors'>
-            <h3>Validation Errors</h3>
-            <ul>
-              {
-                // Object.values(errors)
-                errors.errors.map((e) => {
-                  return <li>{e}</li>;
-                })
-              }
-            </ul>
-          </div>
-        )}
-        <form>
-          <div className='main--flex'>
-            <div>
-              <label htmlFor='courseTitle'>Course Title</label>
-              <input
-                id='courseTitle'
-                name='courseTitle'
-                type='text'
-                value={title}
-                onChange={(e) => {
-                  setTitle(e.target.value);
-                }}
-              />
-
-              <label htmlFor='courseAuthor'>Course Author</label>
-              <input
-                id='courseAuthor'
-                name='courseAuthor'
-                type='text'
-                placeholder={fullName}
-                disabled
-              />
-
-              <label htmlFor='courseDescription'>Course Description</label>
-              <textarea
-                id='courseDescription'
-                name='courseDescription'
-                value={description}
-                onChange={(e) => {
-                  setDescription(e.target.value);
-                }}
-              />
+      {user.userId !== course.User.userId ? (
+        <div className='wrap'>
+          <h2>Update Course</h2>
+          {!errors.errors ? (
+            ' '
+          ) : (
+            <div className='validation--errors'>
+              <h3>Validation Errors</h3>
+              <ul>
+                {
+                  // Object.values(errors)
+                  errors.errors.map((e) => {
+                    return <li>{e}</li>;
+                  })
+                }
+              </ul>
             </div>
-            <div>
-              <label htmlFor='estimatedTime'>Estimated Time</label>
-              <input
-                id='estimatedTime'
-                name='estimatedTime'
-                type='text'
-                value={estimatedTime}
-                onChange={(e) => {
-                  setEstimatedTime(e.target.value);
-                }}
-              />
+          )}
+          <form>
+            <div className='main--flex'>
+              <div>
+                <label htmlFor='courseTitle'>Course Title</label>
+                <input
+                  id='courseTitle'
+                  name='courseTitle'
+                  type='text'
+                  value={title}
+                  onChange={(e) => {
+                    setTitle(e.target.value);
+                  }}
+                />
 
-              <label htmlFor='materialsNeeded'>Materials Needed</label>
-              <textarea
-                id='materialsNeeded'
-                name='materialsNeeded'
-                value={materialsNeeded}
-                onChange={(e) => {
-                  setMaterialsNeeded(e.target.value);
-                }}
-              />
-              {/* * 1/2 x 3/4 inch parting strip&#13;&#13;
-               * 1 x 2 common pine&#13;&#13;
-               * 1 x 4 common pine&#13;&#13;
-               * 1 x 10 common pine&#13;&#13;
-               * 1/4 inch thick lauan plywood&#13;&#13;
-               * Finishing Nails&#13;&#13;
-               * Sandpaper&#13;&#13;
-               * Wood Glue&#13;&#13;
-               * Wood Filler&#13;&#13;
-               * Minwax Oil Based Polyurethane
-               * */}
+                <label htmlFor='courseAuthor'>Course Author</label>
+                <input
+                  id='courseAuthor'
+                  name='courseAuthor'
+                  type='text'
+                  placeholder={fullName}
+                  disabled
+                />
 
-              <button className='button' type='submit' onClick={handleUpdate}>
-                Update Course
-              </button>
-              <button
-                className='button button-secondary'
-                onClick={handleCancel}
-              >
-                Cancel
-              </button>
+                <label htmlFor='courseDescription'>Course Description</label>
+                <textarea
+                  id='courseDescription'
+                  name='courseDescription'
+                  value={description}
+                  onChange={(e) => {
+                    setDescription(e.target.value);
+                  }}
+                />
+              </div>
+              <div>
+                <label htmlFor='estimatedTime'>Estimated Time</label>
+                <input
+                  id='estimatedTime'
+                  name='estimatedTime'
+                  type='text'
+                  value={estimatedTime}
+                  onChange={(e) => {
+                    setEstimatedTime(e.target.value);
+                  }}
+                />
+
+                <label htmlFor='materialsNeeded'>Materials Needed</label>
+                <textarea
+                  id='materialsNeeded'
+                  name='materialsNeeded'
+                  value={materialsNeeded}
+                  onChange={(e) => {
+                    setMaterialsNeeded(e.target.value);
+                  }}
+                />
+                {/* * 1/2 x 3/4 inch parting strip&#13;&#13;
+                 * 1 x 2 common pine&#13;&#13;
+                 * 1 x 4 common pine&#13;&#13;
+                 * 1 x 10 common pine&#13;&#13;
+                 * 1/4 inch thick lauan plywood&#13;&#13;
+                 * Finishing Nails&#13;&#13;
+                 * Sandpaper&#13;&#13;
+                 * Wood Glue&#13;&#13;
+                 * Wood Filler&#13;&#13;
+                 * Minwax Oil Based Polyurethane
+                 * */}
+
+                <button className='button' type='submit' onClick={handleUpdate}>
+                  Update Course
+                </button>
+                <button
+                  className='button button-secondary'
+                  onClick={handleCancel}
+                >
+                  Cancel
+                </button>
+              </div>
             </div>
-          </div>
-        </form>
-      </div>
+          </form>
+        </div>
+      ) : (
+        <Forbidden />
+      )}
     </main>
   );
 };
