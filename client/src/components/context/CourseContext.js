@@ -74,7 +74,19 @@ const CourseContextProvider = (props) => {
   };
 
   const handleRemoveCourse = (id) => {
-    setCourses((prevState) => prevState.filter((p) => p.id !== parseInt(id)));
+    fetch(`http://localhost:5000/api/courses/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Basic ${user.credentials}`,
+      },
+    })
+      .then(() => {
+        setCourses((prevState) =>
+          prevState.filter((p) => p.id !== parseInt(id))
+        );
+      })
+      .catch((err) => console.log(err));
   };
 
   useEffect(() => {

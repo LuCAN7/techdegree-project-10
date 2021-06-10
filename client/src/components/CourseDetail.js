@@ -4,6 +4,8 @@ import { AuthContext } from './context/AuthContext';
 import { CourseContext } from './context/CourseContext';
 import NotFound from './NotFound';
 
+import ReactMarkdown from 'react-markdown';
+
 const CourseDetail = (props) => {
   const { courses, isLoading, actions } = useContext(CourseContext);
   const { user, isLoggedIn } = useContext(AuthContext);
@@ -55,14 +57,18 @@ const CourseDetail = (props) => {
                     <p>
                       By {course.User.firstName} {course.User.lastName}
                     </p>
-                    <p>{course.description}</p>
+                    <ReactMarkdown>
+                      <p>{course.description}</p>
+                    </ReactMarkdown>
                   </div>
                   <div>
                     <h3 className='course--detail--title'>Estimated Time</h3>
                     <p>{course.estimatedTime}</p>
                     <h3 className='course--detail--title'>{course.title}</h3>
                     <ul className='course--detail--list'>
-                      <li>{course.materialsNeeded}</li>
+                      <ReactMarkdown>
+                        <li>{course.materialsNeeded}</li>
+                      </ReactMarkdown>
                     </ul>
                   </div>
                 </div>
