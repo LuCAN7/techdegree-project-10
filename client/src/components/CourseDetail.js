@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import { render } from 'react-dom';
 import { Link, useParams } from 'react-router-dom';
 import { AuthContext } from './context/AuthContext';
 import { CourseContext } from './context/CourseContext';
@@ -57,18 +58,23 @@ const CourseDetail = (props) => {
                     <p>
                       By {course.User.firstName} {course.User.lastName}
                     </p>
-                    <ReactMarkdown>
-                      <p>{course.description}</p>
-                    </ReactMarkdown>
+
+                    <p>
+                      {<ReactMarkdown> {course.description}</ReactMarkdown>}
+                    </p>
                   </div>
                   <div>
                     <h3 className='course--detail--title'>Estimated Time</h3>
                     <p>{course.estimatedTime}</p>
                     <h3 className='course--detail--title'>{course.title}</h3>
                     <ul className='course--detail--list'>
-                      <ReactMarkdown>
-                        <li>{course.materialsNeeded}</li>
-                      </ReactMarkdown>
+                      <li>
+                        {
+                          <ReactMarkdown>
+                            {course.materialsNeeded}
+                          </ReactMarkdown>
+                        }
+                      </li>
                     </ul>
                   </div>
                 </div>

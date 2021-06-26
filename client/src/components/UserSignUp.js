@@ -45,8 +45,10 @@ const UserSignUp = (props) => {
   };
 
   const handleCancel = (e) => {
-    signOut();
+    e.preventDefault();
+    // signOut();
     props.history.push('/');
+    // props.history.push(`/courses/${id}`);
   };
 
   return (

@@ -55,6 +55,7 @@ const UpdateCourse = (props) => {
 
   const handleCancel = (e) => {
     e.preventDefault();
+
     props.history.push(`/courses/${id}`);
   };
 
