@@ -10,7 +10,7 @@ const UserSignUp = (props) => {
   const [errors, setErrors] = useState(null);
 
   const { signIn, signOut } = useContext(AuthContext);
-  // const test = false;
+
   const handleSignup = (e) => {
     e.preventDefault();
     let userName = name.split(' ');
@@ -28,17 +28,21 @@ const UserSignUp = (props) => {
       }),
     })
       .then((res) => {
-        return res.json();
+        // console.log('SIGNUP HERE==>>', res);
+
+        if (res.status === 201) {
+          return [];
+        } else {
+          return res.json();
+        }
       })
       .then((data) => {
         if (data.Errors) {
-          console.log('SIGNUP - There is an error? HERE==>>', data.Errors);
-
           setErrors((prev) => data.Errors);
           return errors;
         }
         signIn(email, confirmPassword);
-        // props.history.push('/');
+        props.history.push('/');
       })
       .catch((err) => console.error(err));
     // console.error('There has been a problem with your fetch operation:', error);
@@ -48,7 +52,6 @@ const UserSignUp = (props) => {
     e.preventDefault();
     // signOut();
     props.history.push('/');
-    // props.history.push(`/courses/${id}`);
   };
 
   return (

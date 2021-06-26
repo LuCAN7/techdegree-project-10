@@ -39,9 +39,7 @@ const UpdateCourse = (props) => {
       return;
     } else {
       // console.log('Update Errors', errors);
-      // console.log(title);
       if (title && description) {
-        // console.log('there is a title');
         props.history.push('/');
         return;
       } else {
