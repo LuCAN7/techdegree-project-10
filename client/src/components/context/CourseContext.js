@@ -7,7 +7,7 @@ const CourseContextProvider = (props) => {
   const { user } = useContext(AuthContext);
   const [isLoading, setIsLoading] = useState(true);
   const [courses, setCourses] = useState([]);
-  const [errors, setErrors] = useState([]);
+  // const [errors, setErrors] = useState([]);
 
   const handleFetchCourse = () => {
     fetch('http://localhost:5000/api/courses')
@@ -44,33 +44,28 @@ const CourseContextProvider = (props) => {
       .catch((err) => console.log(err));
   };
 
-  const handleUpdateCourse = (updateCourse, id) => {
+  const handleUpdateCourse = async (updateCourse, id) => {
     // console.log(typeof updateCourse);
-    fetch(`http://localhost:5000/api/courses/${id}`, {
+    const response = await fetch(`http://localhost:5000/api/courses/${id}`, {
       method: 'PUT',
       body: JSON.stringify(updateCourse),
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Basic ${user.credentials}`,
       },
-    })
-      .then((res) => {
-        if (!res.ok) {
-          return res.json().then((data) => {
-            setErrors(() => {
-              console.log('Context Error', errors);
-              return data;
-            });
-            console.log('Context Error', errors);
-            return errors;
-          });
-        } else {
-          handleFetchCourse();
-          setErrors([]);
-          return;
-        }
-      })
-      .catch((error) => console.error('Catch Errors:', error));
+    });
+
+    if (response.status === 204) {
+      handleFetchCourse();
+      return [];
+    } else if (response.status === 400) {
+      return response.json().then((data) => {
+        return data.errors;
+      });
+    } else {
+      throw new Error();
+    }
+    // });
   };
 
   const handleRemoveCourse = (id) => {
@@ -102,7 +97,7 @@ const CourseContextProvider = (props) => {
       value={{
         courses,
         isLoading,
-        errors: errors,
+        // errors: errors,
         actions: {
           addCourse: handleAddCourse,
           removeCourse: handleRemoveCourse,

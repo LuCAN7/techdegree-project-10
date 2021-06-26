@@ -5,7 +5,7 @@ import { CourseContext } from './context/CourseContext';
 import Forbidden from './Forbidden';
 
 const UpdateCourse = (props) => {
-  const { courses, actions, errors } = useContext(CourseContext);
+  const { courses, actions } = useContext(CourseContext);
   const { user } = useContext(AuthContext);
   const { id } = useParams();
   let course = courses.find((c) => c.id == id);
@@ -18,6 +18,7 @@ const UpdateCourse = (props) => {
   const [materialsNeeded, setMaterialsNeeded] = useState(
     '' || course.materialsNeeded
   );
+  const [errors, setErrors] = useState([]);
 
   const handleUpdate = (e) => {
     e.preventDefault();
@@ -29,32 +30,28 @@ const UpdateCourse = (props) => {
       userId: user.userId,
     };
 
-    // console.log(Array.isArray(errors));
-    console.log('errors', errors);
-    // console.log('errors.errors', errors.errors);
-
-    actions.updateCourse(updatedCourse, id);
-    if (errors.errors && errors.errors.length > 0) {
-      props.history.push(`/${id}/update`);
-      return;
-    } else {
-      // console.log('Update Errors', errors);
-      if (title && description) {
-        props.history.push('/');
-        return;
-      } else {
-        props.history.push(`/${id}/update`);
-        // return;
-      }
-      // props.history.push('/');
-      return;
-    }
+    actions
+      .updateCourse(updatedCourse, id)
+      .then((errors) => {
+        // console.log('UPDATE ACTION', errors);
+        if (errors && errors.length > 0) {
+          setErrors(errors);
+          props.history.push(`/${id}/update`);
+          return;
+        } else if (title && description) {
+          setErrors([]);
+          props.history.push('/');
+          return;
+        } else {
+          props.history.push(`/${id}/update`);
+        }
+      })
+      .catch((error) => console.error('Catch Errors:', error));
   };
 
   const handleCancel = (e) => {
     e.preventDefault();
-
-    props.history.push(`/courses/${id}`);
+    props.history.push('/');
   };
 
   useEffect(() => {
@@ -69,7 +66,7 @@ const UpdateCourse = (props) => {
       {user.userId !== course.User.userId ? (
         <div className='wrap'>
           <h2>Update Course</h2>
-          {!errors.errors ? (
+          {errors.length === 0 ? (
             ' '
           ) : (
             <div className='validation--errors'>
@@ -77,8 +74,8 @@ const UpdateCourse = (props) => {
               <ul>
                 {
                   // Object.values(errors)
-                  errors.errors.map((e) => {
-                    return <li>{e}</li>;
+                  errors.map((e, i) => {
+                    return <li key={i}>{e}</li>;
                   })
                 }
               </ul>
@@ -138,7 +135,8 @@ const UpdateCourse = (props) => {
                     setMaterialsNeeded(e.target.value);
                   }}
                 />
-                {/* * 1/2 x 3/4 inch parting strip&#13;&#13;
+                {/*
+                 * 1/2 x 3/4 inch parting strip&#13;&#13;
                  * 1 x 2 common pine&#13;&#13;
                  * 1 x 4 common pine&#13;&#13;
                  * 1 x 10 common pine&#13;&#13;
