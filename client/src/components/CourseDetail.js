@@ -5,7 +5,6 @@ import { CourseContext } from './context/CourseContext';
 import NotFound from './NotFound';
 
 import ReactMarkdown from 'react-markdown';
-
 const CourseDetail = (props) => {
   const { courses, isLoading, actions } = useContext(CourseContext);
   const { user, isLoggedIn } = useContext(AuthContext);
@@ -14,12 +13,14 @@ const CourseDetail = (props) => {
   let course = courses.find((c) => c.id == id);
 
   return (
+    // tried to put render condition inside <main> but had react error
     <>
       {isLoading ? (
         'Please waiting while Loading...'
       ) : (
         <main>
           <div className='actions--bar'>
+            {/* Dissplay Update & Delete button if userId matches course.userId */}
             {isLoggedIn && course.User.id === user.userId ? (
               <div className='wrap'>
                 <Link className='button' to={`/${id}/update`}>
@@ -57,7 +58,12 @@ const CourseDetail = (props) => {
                     <p>
                       By {course.User.firstName} {course.User.lastName}
                     </p>
-                    <p>{<ReactMarkdown>{course.description}</ReactMarkdown>}</p>
+                    <p>
+                      {
+                        // render markdown from user inputs
+                        <ReactMarkdown>{course.description}</ReactMarkdown>
+                      }
+                    </p>
                   </div>
                   <div>
                     <h3 className='course--detail--title'>Estimated Time</h3>
@@ -66,6 +72,7 @@ const CourseDetail = (props) => {
                     <ul className='course--detail--list'>
                       <li>
                         {
+                          // render markdown from user inputs
                           <ReactMarkdown>
                             {course.materialsNeeded}
                           </ReactMarkdown>

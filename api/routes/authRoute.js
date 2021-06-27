@@ -9,6 +9,7 @@ const authUser = async (req, res, next) => {
     // Parse the user's credentials from the Authorization header.
     const credentials = auth(req);
 
+    // validate credtentials from req
     if (credentials) {
       const { name, pass } = credentials;
       const user = await User.findOne({
@@ -22,7 +23,6 @@ const authUser = async (req, res, next) => {
 
         if (authenticated) {
           req.currentUser = user;
-          // console.log('AUTHENTICATED!', user);
           next();
         } else {
           // Return a response with a 401 Unauthorized HTTP status code.

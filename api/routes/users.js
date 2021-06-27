@@ -44,7 +44,7 @@ router.post(
       if (password) {
         hashedPassword = await bcrypt.hash(password, 10);
       }
-
+      // create a user object to be created
       await User.create({
         firstName,
         lastName,

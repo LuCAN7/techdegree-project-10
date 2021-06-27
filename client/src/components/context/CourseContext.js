@@ -31,6 +31,7 @@ const CourseContextProvider = (props) => {
     if (response.status === 200) {
       handleFetchCourse();
     } else if (response.status === 400) {
+      // Return the response as a promise then convert JSON
       return response.json().then((data) => {
         return data;
       });
@@ -54,10 +55,12 @@ const CourseContextProvider = (props) => {
       handleFetchCourse();
       return [];
     } else if (response.status === 400) {
+      // Return the response as a promise then convert JSON
       return response.json().then((data) => {
         return data.errors;
       });
     } else {
+      // Not handling other error use cases //
       throw new Error();
     }
   };

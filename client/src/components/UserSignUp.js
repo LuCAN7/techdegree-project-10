@@ -9,7 +9,7 @@ const UserSignUp = (props) => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [errors, setErrors] = useState(null);
 
-  const { signIn, signOut } = useContext(AuthContext);
+  const { signIn } = useContext(AuthContext);
 
   const handleSignup = (e) => {
     e.preventDefault();
@@ -28,8 +28,6 @@ const UserSignUp = (props) => {
       }),
     })
       .then((res) => {
-        // console.log('SIGNUP HERE==>>', res);
-
         if (res.status === 201) {
           return [];
         } else {
@@ -37,6 +35,7 @@ const UserSignUp = (props) => {
         }
       })
       .then((data) => {
+        // returned promise is an error if response not 201
         if (data.Errors) {
           setErrors((prev) => data.Errors);
           return errors;
@@ -45,12 +44,10 @@ const UserSignUp = (props) => {
         props.history.push('/');
       })
       .catch((err) => console.error(err));
-    // console.error('There has been a problem with your fetch operation:', error);
   };
 
   const handleCancel = (e) => {
     e.preventDefault();
-    // signOut();
     props.history.push('/');
   };
 

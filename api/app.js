@@ -6,10 +6,7 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
-// const Sequelize = require('sequelize');
 const sequelize = require('./db');
-// const User = require('./models/user');
-// const Course = require('./models/course');
 
 const routes = require('./routes/index');
 const userRoutes = require('./routes/users');
@@ -42,13 +39,6 @@ sequelize
   .catch((err) => {
     console.log(err);
   });
-
-// User.hasMany(Course);
-// // Create Model Associates
-// Course.belongsTo(User, {
-//   foreignKey: 'userId',
-//   onDelete: 'CASCADE',
-// });
 
 sequelize
   .sync()
