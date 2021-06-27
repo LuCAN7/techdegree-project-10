@@ -11,6 +11,7 @@ const CreateCourse = (props) => {
   const [description, setDescription] = useState('');
   const [estimatedTime, setEstimatedTime] = useState('');
   const [materialsNeeded, setMaterialsNeeded] = useState('');
+  const [errors, setErrors] = useState([]);
 
   const handleCreate = (e) => {
     e.preventDefault();
@@ -23,10 +24,25 @@ const CreateCourse = (props) => {
       userId: user.userId,
     };
 
-    actions.addCourse(newCourse);
-    props.history.push('/');
-    // props.history.push(`/courses/${id}`);
+    actions
+      .addCourse(newCourse)
+      .then((errors) => {
+        // Similar logic derived from UpdateCourse.js
+        if (errors && errors.length > 0) {
+          setErrors(errors);
+          props.history.push('/create');
+          return;
+        } else if (title && description) {
+          setErrors([]);
+          props.history.push('/');
+          return;
+        } else {
+          props.history.push('/create');
+        }
+      })
+      .catch((error) => console.error('Catch Errors:', error));
   };
+
   const handleCancel = (e) => {
     e.preventDefault();
     props.history.push('/');
@@ -36,18 +52,18 @@ const CreateCourse = (props) => {
     <main>
       <div className='wrap'>
         <h2>Create Course</h2>
-        {/* Validation Errors will go here */}
-        <div className='validation--errors'>
-          <h3>Validation Errors</h3>
-          <ul>
-            {/* {errors.map((e, i) => {
-              return <li key={i}>{e}</li>;
-            })} */}
-            <li>Please provide a value for "Title"</li>
-            <li>Please provide a value for "Description"</li>
-          </ul>
-        </div>
-        {/*Validation Errors will go here*/}
+        {errors.length === 0 ? (
+          ' '
+        ) : (
+          <div className='validation--errors'>
+            <h3>Validation Errors</h3>
+            <ul>
+              {errors.map((e, i) => {
+                return <li key={i}>{e}</li>;
+              })}
+            </ul>
+          </div>
+        )}
         <form>
           <div className='main--flex'>
             <div>

@@ -18,34 +18,29 @@ const CourseContextProvider = (props) => {
       });
   };
 
-  const handleAddCourse = (course) => {
-    fetch('http://localhost:5000/api/courses', {
+  const handleAddCourse = async (course) => {
+    const response = await fetch('http://localhost:5000/api/courses', {
       method: 'POST',
       body: JSON.stringify(course),
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Basic ${user.credentials}`,
       },
-    })
-      .then((res) => res.json())
-      .then((course) => {
-        // console.dir(course.Errors);
+    });
 
-        setCourses((prevState) => {
-          return [
-            ...prevState,
-            {
-              course,
-            },
-          ];
-        });
-        handleFetchCourse();
-      })
-      .catch((err) => console.log(err));
+    if (response.status === 200) {
+      handleFetchCourse();
+    } else if (response.status === 400) {
+      return response.json().then((data) => {
+        return data;
+      });
+    } else {
+      // Not handling other error use cases //
+      throw new Error();
+    }
   };
 
   const handleUpdateCourse = async (updateCourse, id) => {
-    // console.log(typeof updateCourse);
     const response = await fetch(`http://localhost:5000/api/courses/${id}`, {
       method: 'PUT',
       body: JSON.stringify(updateCourse),
@@ -65,7 +60,6 @@ const CourseContextProvider = (props) => {
     } else {
       throw new Error();
     }
-    // });
   };
 
   const handleRemoveCourse = (id) => {
@@ -97,7 +91,6 @@ const CourseContextProvider = (props) => {
       value={{
         courses,
         isLoading,
-        // errors: errors,
         actions: {
           addCourse: handleAddCourse,
           removeCourse: handleRemoveCourse,
